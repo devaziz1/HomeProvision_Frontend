@@ -81,7 +81,7 @@ function Home({ navigation }) {
           }}
         >
           <Text style={{ fontSize: 27, fontWeight: "500", color: "black" }}>
-            Hello, Aziz
+            Hello, Aziz... 
           </Text>
           <Text
             style={{
