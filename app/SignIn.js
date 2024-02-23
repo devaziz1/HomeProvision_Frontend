@@ -210,13 +210,13 @@ function SignIn({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.Box1}>
-          <Text style={styles.text}>Sign In Here!</Text>
+          <Text style={styles.text}>Login</Text>
           {/* Enter Full Name */}
           {errorMsg ? <Text style={styles.error}>{errorMsg}</Text> : null}
           <View style={[styles.Input, isFocused3 && styles.focusedContainer]}>
             <FontAwesome name="user-o" size={25} color="#178CCB"></FontAwesome>
             <TextInput
-              placeholder="Enter Full Name"
+              placeholder="Enter User Name"
               style={styles.TextInput}
               onPressIn={() => handleError(null, "name")}
               onFocus={handleFocus3}
@@ -226,28 +226,7 @@ function SignIn({ navigation }) {
           </View>
           {errors.name ? <Text style={styles.error}>{errors.name}</Text> : null}
 
-          {/* Enter Email */}
-          <View style={[styles.Input, isFocused && styles.focusedContainer]}>
-            <FontAwesome
-              name="envelope-o"
-              size={25}
-              color="#178CCB"
-            ></FontAwesome>
-            <TextInput
-              placeholder="Enter email"
-              style={styles.TextInput}
-              onFocus={handleFocus}
-              onPressIn={() => [handleError(null, "email"), setError(null)]}
-              onBlur={handleBlur}
-              onChangeText={(val) => handleEmail(val)}
-            />
-            {check_textInputChange ? (
-              <Feather name="check-circle" color="green" size={15} />
-            ) : null}
-          </View>
-          {errors.email ? (
-            <Text style={styles.error}>{errors.email}</Text>
-          ) : null}
+          
 
           {/* Enter Password */}
           <View style={[styles.Input, isFocused2 && styles.focusedContainer]}>
@@ -272,146 +251,33 @@ function SignIn({ navigation }) {
           {errors.password ? (
             <Text style={styles.error}>{errors.password}</Text>
           ) : null}
-          {/* Confirm Password  */}
-          <View style={[styles.Input, isFocused4 && styles.focusedContainer]}>
-            <FontAwesome name="lock" size={25} color="#178CCB"></FontAwesome>
-            <TextInput
-              placeholder="Confirm Password"
-              secureTextEntry={secureTextEntry ? true : false}
-              style={styles.TextInput}
-              onFocus={handleFocus4}
-              onBlur={handleBlur4}
-              onPressIn={() => handleError(null, "confirmPassword")}
-              onChangeText={(val) => handelConfirmPassword(val)}
-            />
-            <TouchableOpacity onPress={updateSecureTextEntry}>
-              {secureTextEntry ? (
-                <Feather name="eye-off" color="gray" size={15} />
-              ) : (
-                <Feather name="eye" color="gray" size={15} />
-              )}
-            </TouchableOpacity>
-          </View>
-          {errors.confirmPassword ? (
-            <Text style={styles.error}>{errors.confirmPassword}</Text>
-          ) : null}
+          
 
-          <View style={[styles.Input, isFocused5 && styles.focusedContainer]}>
-            <FontAwesome name="phone" size={25} color="#178CCB"></FontAwesome>
-            <TextInput
-              placeholder="Enter Phone Number"
-              keyboardType="numeric"
-              style={styles.TextInput}
-              onFocus={handleFocus5}
-              onPressIn={() => handleError(null, "phoneNumber")}
-              onBlur={handleBlur5}
-              onChangeText={(val) => handlePhone(val)}
-            />
-          </View>
-          {errors.phoneNumber ? (
-            <Text style={styles.error}>{errors.phoneNumber}</Text>
-          ) : null}
+          
 
-          <View style={[styles.Input, isFocused6 && styles.focusedContainer]}>
-            <FontAwesome5
-              name="notes-medical"
-              size={25}
-              color="#178CCB"
-            ></FontAwesome5>
-            <TextInput
-              placeholder="Enter Medical History"
-              style={styles.TextInput}
-              onFocus={handleFocus6}
-              onBlur={handleBlur6}
-              onChangeText={(val) => handleMedicalHistory(val)}
-            />
-          </View>
+          
 
-          <View style={{ flexDirection: "column", alignItems: "flex-start" }}>
-            <Text
-              style={{
-                fontSize: 15,
-                marginTop: 15,
-                marginLeft: 10,
-                fontWeight: "bold",
-              }}
-            >
-              Select Gender :
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 10,
-                marginLeft: 60,
-              }}
-            >
-              <TouchableOpacity onPress={() => handleGenderChange("male")}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <RadioButton
-                    value="male"
-                    status={data.gender === "male" ? "checked" : "unchecked"}
-                    onPress={() => handleGenderChange("male")}
-                    color="skyblue"
-                    onPressIn={() => handleError(null, "gender")}
-                  />
-                  {/* <Text>Male</Text> */}
-                  <FontAwesome
-                    name="male"
-                    size={30}
-                    color="#85D0DE"
-                  ></FontAwesome>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => handleGenderChange("female")}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginLeft: 50,
-                  }}
-                >
-                  <RadioButton
-                    value="female"
-                    status={data.gender === "female" ? "checked" : "unchecked"}
-                    onPress={() => handleGenderChange("female")}
-                    onPressIn={() => handleError(null, "gender")}
-                    color="pink"
-                  />
-                  {/* <Text>Female</Text> */}
-                  <FontAwesome
-                    name="female"
-                    size={30}
-                    color="#E6879E"
-                  ></FontAwesome>
-                </View>
-              </TouchableOpacity>
-            </View>
-            {errors.gender ? (
-              <Text style={styles.error}>{errors.gender}</Text>
-            ) : null}
-          </View>
+          
 
           <View style={styles.ButtonSignIn}>
-            <Link href="Home" style={styles.signIn}>
+            <TouchableOpacity onPress={handleSignUp} style={styles.signIn}>
               <Text style={styles.textSign}>Sign In </Text>
-            </Link>
+            </TouchableOpacity>
           </View>
           <View style={styles.signUpText}>
-            <Text> Don't Have An Account? </Text>
-            <Link href="SignUp">
+            <Text> Already have a account? </Text>
+            <Link href="Home">
               <Text
                 style={[
                   {
                     color: "black",
-                    textDecorationLine: "underline",
                     borderBottomWidth: 1,
+                    textDecorationLine: "underline",
                     borderColor: "#9989C7",
                   },
                 ]}
               >
-                Sign Up here
+                Sign In here
               </Text>
             </Link>
           </View>

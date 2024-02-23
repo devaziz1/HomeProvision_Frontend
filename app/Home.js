@@ -22,12 +22,11 @@ import { UserContext } from "../Hooks/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 
 function Home({ navigation }) {
-
   const handelMED = () => {
     navigation.navigate("MedicineHome");
   };
   const opendrawer = () => {
-    DrawerActions.openDrawer()
+    DrawerActions.openDrawer();
   };
   return (
     <View style={style.MainBox}>
@@ -45,34 +44,11 @@ function Home({ navigation }) {
         }}
       >
         {/* backgroundColor:"#74bae0" */}
-        <View
-          style={{
-            borderWidth: 0,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: 15,
-          }}
-        >
-          <TouchableOpacity onPress={opendrawer}>
-            <EvilIcons
-              name="navicon"
-              size={35}
-              color={"black"}
-              style={{ borderWidth: 0, marginStart: 0 }}
-            />
-          </TouchableOpacity>
-
-          {/* <TouchableOpacity>
-                        <MaterialIcons
-                            // name='logout'
-                            name="notifications-none"
-                            size={30}
-                            color={"black"}
-                            style={{}} /></TouchableOpacity> */}
-        </View>
+        
 
         <View
           style={{
+            marginTop:50,
             marginStart: 25,
             flexDirection: "column",
             justifyContent: "flex-start",
@@ -81,7 +57,7 @@ function Home({ navigation }) {
           }}
         >
           <Text style={{ fontSize: 27, fontWeight: "500", color: "black" }}>
-            Hello, Aziz... 
+            Hello, Aziz...
           </Text>
           <Text
             style={{
@@ -155,46 +131,12 @@ function Home({ navigation }) {
             marginTop: 0,
           }}
         >
-          <TouchableOpacity
-            style={style.CardBox}
-            onPress={() => {
-              navigation.navigate("MyAppointments");
-            }}
-          >
-            <View style={[style.fontIcon, { right: 8 }]}>
-              <FontAwesome5 name={"calendar-alt"} size={30} color={"#178CCB"} />
-            </View>
-            <Text style={[style.subHeading, { right: 10 }]}>
-              My Appointmnets
-            </Text>
-            {/* </View> */}
-          </TouchableOpacity>
-
           {/* <TouchableOpacity style={style.CardBox} onPress={()=>{navigation.navigate("ViewReports")}}>
                     <View style={style.fontIcon}>
                     <Image source={require('../Images/medical-report.png')} style={{ width: 30, height: 30,}} />
                     </View>
                     <Text style={style.subHeading}>Medical Reports</Text>
                 </TouchableOpacity> */}
-
-          <TouchableOpacity
-            style={style.CardBox}
-            onPress={() => {
-              navigation.navigate("Appointments");
-            }}
-          >
-            <View style={style.fontIcon}>
-              <MaterialCommunityIcons
-                // name='logout'
-                name="timetable"
-                size={33}
-                color={"#178CCB"}
-                style={{}}
-              />
-              {/* <Image source={require('../Images/medical-report.png')} style={{ width: 30, height: 30,}} /> */}
-            </View>
-            <Text style={style.subHeading}>Book Appointmnets</Text>
-          </TouchableOpacity>
 
           {/* <View style={{borderWidth:0,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
                     <View style={style.smallCard}>
@@ -230,7 +172,7 @@ function Home({ navigation }) {
                   color="#178CCB"
                 />
               </View>
-              <Text style={style.subHeadingsmall}>Pills Reminder</Text>
+              <Text style={style.subHeadingsmall}>Tiles</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={style.cards}
@@ -241,7 +183,36 @@ function Home({ navigation }) {
               <View style={style.fontIcon}>
                 <FontAwesome5 name={"file-medical"} size={30} color="#178CCB" />
               </View>
-              <Text style={style.subHeadingsmall}>Prescription</Text>
+              <Text style={style.subHeadingsmall}>Marble</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={style.rowBox}>
+            <TouchableOpacity
+              style={style.cards}
+              onPress={() => {
+                navigation.navigate("MedicineHome");
+              }}
+            >
+              <View style={style.fontIcon}>
+                <FontAwesome5
+                  name={"prescription-bottle-alt"}
+                  size={30}
+                  color="#178CCB"
+                />
+              </View>
+              <Text style={style.subHeadingsmall}>Door</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={style.cards}
+              onPress={() => {
+                navigation.navigate("Prescription");
+              }}
+            >
+              <View style={style.fontIcon}>
+                <FontAwesome5 name={"file-medical"} size={30} color="#178CCB" />
+              </View>
+              <Text style={style.subHeadingsmall}>Electronics</Text>
             </TouchableOpacity>
           </View>
 
@@ -255,7 +226,7 @@ function Home({ navigation }) {
               <View style={style.fontIcon}>
                 <MaterialIcons name={"feedback"} size={30} color="#178CCB" />
               </View>
-              <Text style={style.subHeadingsmall}>Doctor Feedback</Text>
+              <Text style={style.subHeadingsmall}>Furniture</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
