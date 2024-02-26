@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -9,17 +9,21 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import FontAwesome from "react-native-vector-icons/FontAwesome"; 
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5"; 
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { RadioButton } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
-import { UserContext } from "../Hooks/AuthContext";
-import { Link } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+import { Link, router } from "expo-router";
 
 
 function SignUp() {
+   
+
   const [isFocused, setIsFocused] = useState(false);
   const [isFocused2, setIsFocused2] = useState(false);
   const [isFocused3, setIsFocused3] = useState(false);
@@ -29,13 +33,16 @@ function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cpassword, setcPassword] = useState("");
   const [PhoneNo, setPhoneNo] = useState("");
   const [address, setAddress] = useState("");
-  const [errors, setErrors] = useState({});
-  const [errorMsg, setError] = useState(null);
 
-  
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [PhoneNoError, setPhoneNoError] = useState(false);
+  const [addressError, setAddressError] = useState(false);
+  const [backendError, setbackendError] = useState("");
+
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -84,63 +91,81 @@ function SignUp() {
     setIsFocused6(false);
   };
 
+  const handleSignUp = async () => {
+    console.log("Inside handle sign up");
+    if (email === "") {
+      setEmailError(true);
+    }
+    if (password === "") {
+      setPasswordError(true);
+    }
+    if (PhoneNo === "") {
+      setPhoneNoError(true);
+    }
+    if (address === "") {
+      setAddressError(true);
+    }
+    if (name === "") {
+      setNameError(true);
+    }
 
-
-
-
-  const handleError = (error, data) => {
-    setErrors((prevState) => ({ ...prevState, [data]: error }));
+    try {
+      const userData = {
+        name: name,
+        email: email,
+        password: password,
+        phone: PhoneNo,
+        address: address,
+      };
+      const response = await axios.post(
+        "http://192.168.18.21:8080/user/signup",
+        userData
+      );
+      console.log(response.data.name);
+      try {
+        await AsyncStorage.setItem("userName", response.data.name);
+      } catch (error) {
+        console.error("Error storing userName in AsyncStorage:", error);
+      }
+      router.push("/Home");
+      // Handle response here
+    } catch (error) {
+       if (
+         error.response &&
+         error.response.data &&
+         error.response.data.message
+       ) {
+         
+         setbackendError(error.response.data.message);
+         console.log(error.response.data.message);
+       } else { 
+         setbackendError(
+           "Please try again later."
+         );
+       }
+    }
   };
-
-
-    
-const handleSignUp = async () => {
-  
-  // try {
-  //   const userData = {
-  //     name: name,
-  //     email: email,
-  //     password: password,
-  //     phone: PhoneNo,
-  //     address: address,
-  //   };
-
-  //   const response = await axios.post(
-  //     "http://192.168.18.21:8080/user/signup",
-  //     userData
-  //   );
-
-  //   console.log(response.data);
-  //   // Handle response here
-  // } catch (error) {
-  //   console.error("Error signing up:", error);
-  //   // Handle error here
-  // }
-};
-
-
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.Box1}>
           <Text style={styles.text}>Sign Up Here!</Text>
+          <Text style={styles.errorB}>{backendError}</Text>
 
-
-          {/* Enter Full Name */}
-          {errorMsg ? <Text style={styles.error}>{errorMsg}</Text> : null}
           <View style={[styles.Input, isFocused3 && styles.focusedContainer]}>
             <FontAwesome name="user-o" size={25} color="#178CCB"></FontAwesome>
             <TextInput
               placeholder="Enter Full Name"
               style={styles.TextInput}
-              onPressIn={() => handleError(null, "name")}
               onFocus={handleFocus3}
               onBlur={handleBlur3}
               onChangeText={(e) => setName(e)}
             />
           </View>
-          {errors.name ? <Text style={styles.error}>{errors.name}</Text> : null}
+          {nameError ? (
+            <Text style={styles.error}>Please enter name</Text>
+          ) : null}
 
           {/* Enter Email */}
           <View style={[styles.Input, isFocused && styles.focusedContainer]}>
@@ -153,13 +178,12 @@ const handleSignUp = async () => {
               placeholder="Enter email"
               style={styles.TextInput}
               onFocus={handleFocus}
-              onPressIn={() => [handleError(null, "email"), setError(null)]}
               onBlur={handleBlur}
               onChangeText={(e) => setEmail(e)}
             />
           </View>
-          {errors.email ? (
-            <Text style={styles.error}>{errors.email}</Text>
+          {emailError ? (
+            <Text style={styles.error}>Please enter email</Text>
           ) : null}
 
           {/* Enter Password */}
@@ -170,31 +194,12 @@ const handleSignUp = async () => {
               secureTextEntry={true}
               style={styles.TextInput}
               onFocus={handleFocus2}
-              onPressIn={() => handleError(null, "password")}
               onBlur={handleBlur2}
               onChangeText={(e) => setPassword(e)}
             />
           </View>
-          {errors.password ? (
-            <Text style={styles.error}>{errors.password}</Text>
-          ) : null}
-
-
-          {/* Confirm Password  */}
-          <View style={[styles.Input, isFocused4 && styles.focusedContainer]}>
-            <FontAwesome name="lock" size={25} color="#178CCB"></FontAwesome>
-            <TextInput
-              placeholder="Confirm Password"
-              secureTextEntry={true}
-              style={styles.TextInput}
-              onFocus={handleFocus4}
-              onBlur={handleBlur4}
-              onPressIn={() => handleError(null, "confirmPassword")}
-              onChangeText={(val) => setcPassword(val)}
-            />
-          </View>
-          {errors.confirmPassword ? (
-            <Text style={styles.error}>{errors.confirmPassword}</Text>
+          {passwordError ? (
+            <Text style={styles.error}>Please enter password</Text>
           ) : null}
 
           <View style={[styles.Input, isFocused5 && styles.focusedContainer]}>
@@ -204,13 +209,12 @@ const handleSignUp = async () => {
               keyboardType="numeric"
               style={styles.TextInput}
               onFocus={handleFocus5}
-              onPressIn={() => handleError(null, "phoneNumber")}
               onBlur={handleBlur5}
               onChangeText={(e) => setPhoneNo(e)}
             />
           </View>
-          {errors.phoneNumber ? (
-            <Text style={styles.error}>{errors.phoneNumber}</Text>
+          {PhoneNoError ? (
+            <Text style={styles.error}>Please enter phone number</Text>
           ) : null}
 
           <View style={[styles.Input, isFocused6 && styles.focusedContainer]}>
@@ -227,6 +231,9 @@ const handleSignUp = async () => {
               onChangeText={(e) => setAddress(e)}
             />
           </View>
+          {addressError ? (
+            <Text style={styles.error}>Please enter address</Text>
+          ) : null}
 
           <View style={styles.ButtonSignIn}>
             <TouchableOpacity onPress={handleSignUp} style={styles.signIn}>
@@ -355,11 +362,17 @@ const styles = StyleSheet.create({
     top: 25,
   },
   error: {
-    marginTop: 10,
+    marginTop: 2,
     color: "red",
     fontSize: 14,
     // alignSelf:'center',
-    textAlign: "right",
+    textAlign: "left",
+  },
+  errorB: {
+    color: "red",
+    fontWeight: "bold",
+    fontSize: 16,
+    alignSelf: "center",
   },
 });
 export default SignUp;

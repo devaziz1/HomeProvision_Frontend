@@ -18,16 +18,24 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { UserContext } from "../Hooks/AuthContext";
-import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Home({ navigation }) {
-  const handelMED = () => {
-    navigation.navigate("MedicineHome");
-  };
-  const opendrawer = () => {
-    DrawerActions.openDrawer();
-  };
+  const [userName, setUserName] = useState("");
+ useEffect(() => {
+   const getUserNameFromStorage = async () => {
+     try {
+       const storedUserName = await AsyncStorage.getItem("userName");
+       if (storedUserName !== null) {
+         setUserName(storedUserName);
+       }
+     } catch (error) {
+       console.error("Error retrieving userName from AsyncStorage:", error);
+     }
+   };
+
+   getUserNameFromStorage();
+ }, []);
   return (
     <View style={style.MainBox}>
       <View
@@ -44,11 +52,10 @@ function Home({ navigation }) {
         }}
       >
         {/* backgroundColor:"#74bae0" */}
-        
 
         <View
           style={{
-            marginTop:50,
+            marginTop: 50,
             marginStart: 25,
             flexDirection: "column",
             justifyContent: "flex-start",
@@ -57,7 +64,7 @@ function Home({ navigation }) {
           }}
         >
           <Text style={{ fontSize: 27, fontWeight: "500", color: "black" }}>
-            Hello, Aziz...
+            Hello, {userName}
           </Text>
           <Text
             style={{
