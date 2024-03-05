@@ -74,7 +74,7 @@ function Home({ navigation }) {
               color: "black",
             }}
           >
-            How can we help you, today?
+            Welcome to Our Online Store
           </Text>
         </View>
       </View>
@@ -115,16 +115,16 @@ function Home({ navigation }) {
             }}
           >
             <Text style={{ fontSize: 20, fontWeight: "500", color: "black" }}>
-              Let's Explore{" "}
+              Shop Your{" "}
             </Text>
             <Text style={{ fontSize: 20, fontWeight: "500", color: "black" }}>
-              Our Services !!
+              Favorites Now!
             </Text>
           </View>
           <View style={{ borderWidth: 0 }}>
             <Image
-              source={require("../Images/services2.gif")}
-              style={{ width: 160, height: 120, top: 5, right: 7 }}
+              source={require("../Images/cart.png")}
+              style={{ width: 120, height: 120, top: 5, right: 30 }}
             />
           </View>
         </View>
@@ -177,11 +177,13 @@ function Home({ navigation }) {
                   name={"prescription-bottle-alt"}
                   size={30}
                   color="#178CCB"
+
                 />
               </View>
               <Text style={style.subHeadingsmall}>Tiles</Text>
             </TouchableOpacity>
             <TouchableOpacity
+            
               style={style.cards}
               onPress={() => {
                 navigation.navigate("Prescription");

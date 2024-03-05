@@ -93,57 +93,58 @@ function SignUp() {
 
   const handleSignUp = async () => {
     console.log("Inside handle sign up");
-    if (email === "") {
-      setEmailError(true);
-    }
-    if (password === "") {
-      setPasswordError(true);
-    }
-    if (PhoneNo === "") {
-      setPhoneNoError(true);
-    }
-    if (address === "") {
-      setAddressError(true);
-    }
-    if (name === "") {
-      setNameError(true);
-    }
+     router.push("/Home");
+    // if (email === "") {
+    //   setEmailError(true);
+    // }
+    // if (password === "") {
+    //   setPasswordError(true);
+    // }
+    // if (PhoneNo === "") {
+    //   setPhoneNoError(true);
+    // }
+    // if (address === "") {
+    //   setAddressError(true);
+    // }
+    // if (name === "") {
+    //   setNameError(true);
+    // }
 
-    try {
-      const userData = {
-        name: name,
-        email: email,
-        password: password,
-        phone: PhoneNo,
-        address: address,
-      };
-      const response = await axios.post(
-        "http://192.168.18.21:8080/user/signup",
-        userData
-      );
-      console.log(response.data.name);
-      try {
-        await AsyncStorage.setItem("userName", response.data.name);
-      } catch (error) {
-        console.error("Error storing userName in AsyncStorage:", error);
-      }
-      router.push("/Home");
-      // Handle response here
-    } catch (error) {
-       if (
-         error.response &&
-         error.response.data &&
-         error.response.data.message
-       ) {
+    // try {
+    //   const userData = {
+    //     name: name,
+    //     email: email,
+    //     password: password,
+    //     phone: PhoneNo,
+    //     address: address,
+    //   };
+    //   const response = await axios.post(
+    //     "http://192.168.18.21:8080/user/signup",
+    //     userData
+    //   );
+    //   console.log(response.data.name);
+    //   try {
+    //     await AsyncStorage.setItem("userName", response.data.name);
+    //   } catch (error) {
+    //     console.error("Error storing userName in AsyncStorage:", error);
+    //   }
+    //   router.push("/Home");
+    //   // Handle response here
+    // } catch (error) {
+    //    if (
+    //      error.response &&
+    //      error.response.data &&
+    //      error.response.data.message
+    //    ) {
          
-         setbackendError(error.response.data.message);
-         console.log(error.response.data.message);
-       } else { 
-         setbackendError(
-           "Please try again later."
-         );
-       }
-    }
+    //      setbackendError(error.response.data.message);
+    //      console.log(error.response.data.message);
+    //    } else { 
+    //      setbackendError(
+    //        "Please try again later."
+    //      );
+    //    }
+    // }
   };
 
   return (
